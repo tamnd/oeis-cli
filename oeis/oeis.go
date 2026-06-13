@@ -122,12 +122,13 @@ func (c *Client) fetchSequences(ctx context.Context, rawURL string) ([]Sequence,
 	if err != nil {
 		return nil, err
 	}
-	var resp wireSearchResp
-	if err := json.Unmarshal(body, &resp); err != nil {
+	// OEIS /search?fmt=json returns a plain JSON array, not a wrapped object.
+	var wire []wireSequence
+	if err := json.Unmarshal(body, &wire); err != nil {
 		return nil, fmt.Errorf("decode %s: %w", rawURL, err)
 	}
-	out := make([]Sequence, 0, len(resp.Results))
-	for _, w := range resp.Results {
+	out := make([]Sequence, 0, len(wire))
+	for _, w := range wire {
 		out = append(out, wireToSequence(w))
 	}
 	return out, nil

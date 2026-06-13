@@ -11,96 +11,73 @@ import (
 	"github.com/tamnd/oeis-cli/oeis"
 )
 
-const fixtureSearch = `{
-  "greeting": "Greetings from The On-Line Encyclopedia of Integer Sequences!",
-  "query": "fibonacci",
-  "count": 2,
-  "start": 0,
-  "results": [
-    {
-      "number": 45,
-      "data": "0,1,1,2,3,5,8,13,21,34",
-      "name": "Fibonacci numbers: F(n) = F(n-1) + F(n-2), with F(0) = 0 and F(1) = 1.",
-      "comment": ["Also called Lamé's sequence."],
-      "keyword": "nonn,easy,core,nice",
-      "offset": "0,3",
-      "author": "_N. J. A. Sloane_",
-      "xref": ["A039834", "A212804", "A000035", "A001519"]
-    },
-    {
-      "number": 285,
-      "data": "1,4,5,9,14,23,37,60,97,157",
-      "name": "a(0) = 1, a(1) = 4, and for n > 1, a(n) = a(n-1) + a(n-2).",
-      "keyword": "nonn,easy",
-      "offset": "0,2",
-      "author": "_N. J. A. Sloane_",
-      "xref": []
-    }
-  ]
-}`
+// OEIS /search?fmt=json returns a plain JSON array (not a wrapped object).
+const fixtureSearch = `[
+  {
+    "number": 45,
+    "data": "0,1,1,2,3,5,8,13,21,34",
+    "name": "Fibonacci numbers: F(n) = F(n-1) + F(n-2), with F(0) = 0 and F(1) = 1.",
+    "comment": ["Also called Lamé's sequence."],
+    "keyword": "nonn,easy,core,nice",
+    "offset": "0,3",
+    "author": "_N. J. A. Sloane_",
+    "xref": ["A039834", "A212804", "A000035", "A001519"]
+  },
+  {
+    "number": 285,
+    "data": "1,4,5,9,14,23,37,60,97,157",
+    "name": "a(0) = 1, a(1) = 4, and for n > 1, a(n) = a(n-1) + a(n-2).",
+    "keyword": "nonn,easy",
+    "offset": "0,2",
+    "author": "_N. J. A. Sloane_",
+    "xref": []
+  }
+]`
 
-const fixtureEmpty = `{
-  "greeting": "Greetings from The On-Line Encyclopedia of Integer Sequences!",
-  "query": "xyzzy_no_results",
-  "count": 0,
-  "start": 0,
-  "results": null
-}`
+const fixtureEmpty = `[]`
 
-const fixtureOne = `{
-  "greeting": "Greetings from The On-Line Encyclopedia of Integer Sequences!",
-  "query": "id:A000045",
-  "count": 1,
-  "start": 0,
-  "results": [
-    {
-      "number": 45,
-      "data": "0,1,1,2,3,5,8,13,21,34",
-      "name": "Fibonacci numbers: F(n) = F(n-1) + F(n-2), with F(0) = 0 and F(1) = 1.",
-      "comment": ["Also called Lamé's sequence."],
-      "keyword": "nonn,easy,core,nice",
-      "offset": "0,3",
-      "author": "_N. J. A. Sloane_",
-      "xref": ["A039834", "A212804", "A000035"]
-    }
-  ]
-}`
+const fixtureOne = `[
+  {
+    "number": 45,
+    "data": "0,1,1,2,3,5,8,13,21,34",
+    "name": "Fibonacci numbers: F(n) = F(n-1) + F(n-2), with F(0) = 0 and F(1) = 1.",
+    "comment": ["Also called Lamé's sequence."],
+    "keyword": "nonn,easy,core,nice",
+    "offset": "0,3",
+    "author": "_N. J. A. Sloane_",
+    "xref": ["A039834", "A212804", "A000035"]
+  }
+]`
 
-const fixtureTop = `{
-  "greeting": "Greetings from The On-Line Encyclopedia of Integer Sequences!",
-  "query": "keyword:nice,core",
-  "count": 3,
-  "start": 0,
-  "results": [
-    {
-      "number": 1,
-      "data": "0,1,1,1,2,1,2,1,5,2",
-      "name": "Number of groups of order n.",
-      "keyword": "nonn,hard,core,nice",
-      "offset": "0,5",
-      "author": "_N. J. A. Sloane_",
-      "xref": []
-    },
-    {
-      "number": 2,
-      "data": "1,2,2,1,1,2,1,2,2,1",
-      "name": "Kolakoski sequence.",
-      "keyword": "nonn,easy,core,nice",
-      "offset": "1,2",
-      "author": "_N. J. A. Sloane_",
-      "xref": []
-    },
-    {
-      "number": 5,
-      "data": "1,2,3,5,7,11,13,17,19,23",
-      "name": "The prime numbers.",
-      "keyword": "nonn,core,nice",
-      "offset": "1,3",
-      "author": "_N. J. A. Sloane_",
-      "xref": []
-    }
-  ]
-}`
+const fixtureTop = `[
+  {
+    "number": 1,
+    "data": "0,1,1,1,2,1,2,1,5,2",
+    "name": "Number of groups of order n.",
+    "keyword": "nonn,hard,core,nice",
+    "offset": "0,5",
+    "author": "_N. J. A. Sloane_",
+    "xref": []
+  },
+  {
+    "number": 2,
+    "data": "1,2,2,1,1,2,1,2,2,1",
+    "name": "Kolakoski sequence.",
+    "keyword": "nonn,easy,core,nice",
+    "offset": "1,2",
+    "author": "_N. J. A. Sloane_",
+    "xref": []
+  },
+  {
+    "number": 5,
+    "data": "1,2,3,5,7,11,13,17,19,23",
+    "name": "The prime numbers.",
+    "keyword": "nonn,core,nice",
+    "offset": "1,3",
+    "author": "_N. J. A. Sloane_",
+    "xref": []
+  }
+]`
 
 func newTestClient(t *testing.T, body string) (*oeis.Client, func()) {
 	t.Helper()
