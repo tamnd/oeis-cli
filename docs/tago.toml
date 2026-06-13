@@ -1,0 +1,10 @@
+title       = "oeis"
+baseURL     = "https://oeis-cli.tamnd.com/"
+description = "Search the Online Encyclopedia of Integer Sequences"
+contentDir  = "content"
+outputDir   = "public"
+theme       = "tago-doks"
+syntaxHighlight = "true"
+
+[params]
+github = "https://github.com/tamnd/oeis-cli"
